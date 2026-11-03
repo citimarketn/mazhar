@@ -1,0 +1,262 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Alexandria", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  /* Warm premium palette */
+  --color-cream: #fbf5ed;
+  --color-parchment: #fffdf8;
+  --color-sand: #f3e8d9;
+  --color-ink: #2c190f;
+  --color-ink-soft: #7a5f4e;
+  --color-cocoa: #180c05;
+  --color-night: #1e0f07;
+  --color-ember: #d95f3c;
+  --color-blaze: #ee7b4d;
+  --color-glow: #f2a65a;
+  --color-rose: #c97b74;
+  --color-gold: #b9884f;
+
+  /* Motion */
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-float-slow: float 11s ease-in-out infinite;
+  --animate-blob: blob 24s ease-in-out infinite;
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-pulse-glow: pulseGlow 5.5s ease-in-out infinite;
+  --animate-fade-swap: fadeSwap 0.65s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  --animate-spin-slower: spin 26s linear infinite;
+  --animate-tick: tick 2.4s ease-in-out infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-16px);
+    }
+  }
+  @keyframes blob {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(4%, -6%) scale(1.08);
+    }
+    66% {
+      transform: translate(-5%, 4%) scale(0.94);
+    }
+  }
+  @keyframes marquee {
+    to {
+      transform: translateX(50%);
+    }
+  }
+  @keyframes pulseGlow {
+    0%,
+    100% {
+      opacity: 0.55;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.9;
+      transform: scale(1.07);
+    }
+  }
+  @keyframes fadeSwap {
+    from {
+      opacity: 0;
+      transform: scale(1.035);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes tick {
+    0%,
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    50% {
+      transform: translateY(-3px);
+      opacity: 0.75;
+    }
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 92px;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-ember);
+  color: var(--color-cream);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--color-ember), var(--color-glow));
+  border-radius: 99px;
+  border: 2px solid var(--color-cream);
+}
+
+:focus-visible {
+  outline: 2.5px solid var(--color-ember);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ---------- Reveal on scroll ---------- */
+.rv {
+  opacity: 0;
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 0.9s cubic-bezier(0.22, 0.61, 0.36, 1),
+    filter 0.9s cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: opacity, transform;
+}
+.rv-up {
+  transform: translateY(40px);
+}
+.rv-scale {
+  transform: scale(0.92) translateY(16px);
+}
+.rv-blur {
+  transform: translateY(26px);
+  filter: blur(12px);
+}
+.rv-start {
+  transform: translateX(40px);
+}
+.rv-in {
+  opacity: 1;
+  transform: none;
+  filter: blur(0);
+}
+
+/* ---------- Glass & texture ---------- */
+.glass {
+  background: color-mix(in srgb, var(--color-parchment) 62%, transparent);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+}
+.glass-dark {
+  background: rgba(255, 255, 255, 0.045);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ---------- Typography helpers ---------- */
+.text-gradient {
+  background: linear-gradient(110deg, var(--color-ember) 10%, var(--color-blaze) 45%, var(--color-glow) 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---------- Button shine sweep ---------- */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(100deg, transparent 35%, rgba(255, 255, 255, 0.55) 50%, transparent 65%);
+  transform: translateX(-160%);
+  transition: transform 0.9s cubic-bezier(0.22, 0.61, 0.36, 1);
+  z-index: 1;
+}
+.btn-shine:hover::after,
+.btn-shine:focus-visible::after {
+  transform: translateX(160%);
+}
+
+/* ---------- Marquee ---------- */
+.marquee-track {
+  animation: var(--animate-marquee);
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* ---------- Accordion ---------- */
+.acc {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.acc.open {
+  grid-template-rows: 1fr;
+}
+.acc > div {
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* ---------- Tilt card ---------- */
+.tilt {
+  transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+  transform-style: preserve-3d;
+}
+
+/* ---------- Deep card shadow ---------- */
+.shadow-warm {
+  box-shadow:
+    0 24px 60px -24px rgba(217, 95, 60, 0.35),
+    0 8px 24px -12px rgba(44, 25, 15, 0.12);
+}
+.shadow-lift {
+  box-shadow:
+    0 40px 90px -30px rgba(44, 25, 15, 0.28),
+    0 12px 32px -16px rgba(217, 95, 60, 0.2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+  .rv {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
